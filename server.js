@@ -5,7 +5,7 @@ import https from 'node:https';
 const PORT = process.env.PORT || 8080;
 
 const agentOptions = {
-    keepAlive: false,
+    keepAlive: true,
     maxSockets: Infinity,
     maxFreeSockets: 256
 };
@@ -17,6 +17,11 @@ const bareServer = createBareServer('/bare/', {
     logErrors: true,
     httpAgent,
     httpsAgent,
+    connectionLimiter: {
+        maxConnectionsPerIP: 100000,
+        windowDuration: 1,
+        blockDuration: 0,
+    }
 });
 
 const server = http.createServer();
