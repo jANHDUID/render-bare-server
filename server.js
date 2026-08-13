@@ -1,9 +1,22 @@
 import { createBareServer } from '@tomphttp/bare-server-node';
 import http from 'node:http';
+import https from 'node:https';
 
 const PORT = process.env.PORT || 8080;
+
+const agentOptions = {
+    keepAlive: false,
+    maxSockets: Infinity,
+    maxFreeSockets: 256
+};
+
+const httpAgent = new http.Agent(agentOptions);
+const httpsAgent = new https.Agent(agentOptions);
+
 const bareServer = createBareServer('/bare/', {
     logErrors: true,
+    httpAgent,
+    httpsAgent,
 });
 
 const server = http.createServer();
