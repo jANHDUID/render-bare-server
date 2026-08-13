@@ -2,7 +2,7 @@ import { createBareServer } from '@tomphttp/bare-server-node';
 import http from 'node:http';
 
 const PORT = process.env.PORT || 8080;
-const bareServer = createBareServer('/');
+const bareServer = createBareServer('/bare/');
 
 const server = http.createServer();
 
@@ -25,7 +25,8 @@ server.on('request', (req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({
             status: 'online',
-            service: 'Render Node.js Bare Server'
+            service: 'Render Node.js Bare Server',
+            endpoint: '/bare/'
         }, null, 2));
     }
 });
