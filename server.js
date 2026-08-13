@@ -2,19 +2,22 @@ import { createBareServer } from '@tomphttp/bare-server-node';
 import http from 'node:http';
 
 const PORT = process.env.PORT || 8080;
-const bareServer = createBareServer('/bare/');
+const bareServer = createBareServer('/bare/', {
+    logErrors: true,
+});
 
 const server = http.createServer();
 
 server.on('request', (req, res) => {
-    // Add full CORS support for all origins
+    // Add complete CORS headers to all responses
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS, HEAD');
     res.setHeader('Access-Control-Allow-Headers', '*');
     res.setHeader('Access-Control-Expose-Headers', '*');
+    res.setHeader('Access-Control-Max-Age', '86400');
 
     if (req.method === 'OPTIONS') {
-        res.writeHead(200);
+        res.writeHead(204);
         res.end();
         return;
     }
